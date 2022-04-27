@@ -43,7 +43,48 @@ const createUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  console.log("updateUser is starting");
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { name: req.body.name },
+      req.body,
+      { new: true }
+    );
+    res.status(200).json({
+      message: "The user was updated...",
+      payload: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ error: errorHandler(error) });
+  }
+};
+
+const getOneUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let foundUser = await User.findById(id);
+    res.status(200).json({
+      message: "User found!",
+      payload: foundUser,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  updateUser,
+  getOneUser
 };
+
+// const response = await fetch(`${url}/tasks/create-task`, {
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     mode: "cors",
+//     method: "POST",
+//     body: JSON.stringify(data)
+// });
