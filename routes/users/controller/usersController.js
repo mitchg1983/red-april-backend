@@ -80,11 +80,5 @@ module.exports = {
   getOneUser
 };
 
-// const response = await fetch(`${url}/tasks/create-task`, {
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//     mode: "cors",
-//     method: "POST",
-//     body: JSON.stringify(data)
-// });
+//API Key
+//  944bb56ef0798c430cff54fa23c6b6cf
