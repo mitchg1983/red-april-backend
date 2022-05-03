@@ -24,7 +24,11 @@ app.use(
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log("Connected to mongodb for RED-APRIL");
+    console.log(
+      "Connected to mongodb for RED-APRIL",
+      "\n",
+      "$$ Running on Port:3100 $$"
+    );
   })
   .catch((error) => {
     console.log("We have a problem, the error is...", error);

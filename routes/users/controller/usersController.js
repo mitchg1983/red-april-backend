@@ -2,9 +2,10 @@ const User = require("../model/usersModel");
 const errorHandler = require("../utils/errorHandler");
 
 const getAllUsers = async (req, res) => {
-  console.log("Beginning getAllUsers");
+  console.log("Beginning getAllUsers...");
   try {
     let allUsers = await User.find();
+    console.log("allUsers found! :", allUsers);
     res.status(200).json({
       payload: allUsers,
     });
@@ -14,9 +15,8 @@ const getAllUsers = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  console.log("Beginning createUser");
+  console.log("Beginning createUser...");
   try {
-    // console.log(req.body);
     const { name, username, movieData, userData } = req.body;
     const newUser = new User({
       name: name,
@@ -24,6 +24,7 @@ const createUser = async (req, res) => {
       movieData: movieData,
       userData: userData,
     });
+    console.log("Creating new user:", newUser);
     const savedUser = await newUser.save();
     res.status(200).json({
       message: "New user is saved!",
@@ -44,7 +45,7 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  console.log("updateUser is starting");
+  console.log("updateUser is starting...");
   try {
     const updatedUser = await User.findOneAndUpdate(
       { name: req.body.name },
@@ -61,9 +62,12 @@ const updateUser = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
+  console.log("Starting getOneUser...");
+  const { id } = req.params;
+  console.log("Params: ", id);
   try {
-    const { id } = req.params;
     let foundUser = await User.findById(id);
+    console.log("User found by id!: ", foundUser);
     res.status(200).json({
       message: "User found!",
       payload: foundUser,
@@ -77,7 +81,7 @@ module.exports = {
   createUser,
   getAllUsers,
   updateUser,
-  getOneUser
+  getOneUser,
 };
 
 //API Key
