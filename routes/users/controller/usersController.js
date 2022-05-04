@@ -10,7 +10,7 @@ const getAllUsers = async (req, res) => {
       payload: allUsers,
     });
   } catch (err) {
-    res.status(500).json(error);
+    res.status(500).json(err);
   }
 };
 
