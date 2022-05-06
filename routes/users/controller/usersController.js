@@ -17,12 +17,13 @@ const getAllUsers = async (req, res) => {
 const createUser = async (req, res) => {
   console.log("Beginning createUser...");
   try {
-    const { name, username, movieData, userData } = req.body;
+    const { username, email } = req.body;
     const newUser = new User({
-      name: name,
       username: username,
-      movieData: movieData,
-      userData: userData,
+      email: email,
+      watched: [],
+      liked: [],
+      userdata: [],
     });
     console.log("Creating new user:", newUser);
     const savedUser = await newUser.save();
@@ -48,7 +49,7 @@ const updateUser = async (req, res) => {
   console.log("updateUser is starting...");
   try {
     const updatedUser = await User.findOneAndUpdate(
-      { name: req.body.name },
+      { username: req.body.username },
       req.body,
       { new: true }
     );
@@ -64,7 +65,7 @@ const updateUser = async (req, res) => {
 const getOneUser = async (req, res) => {
   console.log("Starting getOneUser...");
   const { id } = req.params;
-  console.log("Params: ", id);
+  console.log("getOneUser Params: ", id);
   try {
     let foundUser = await User.findById(id);
     console.log("User found by id!: ", foundUser);
@@ -77,11 +78,54 @@ const getOneUser = async (req, res) => {
   }
 };
 
+const findUserByName = async (req, res) => {
+  console.log("Starting findUserByName...");
+  console.log("findUserByName params are...", req.params);
+  const { username } = req.params;
+  console.log("Params are...", username);
+  try {
+    console.log("Trying to find,", username);
+
+    let foundUser = await User.find({
+      username: username,
+    });
+
+    console.log("We found this...", foundUser);
+    res.status(200).json({
+      payload: foundUser,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+// const updateUserWatched = async (req, res) => {
+//   console.log("Starting updateUserWatched...");
+//   console.log("reqBody is...", req.body);
+//   const { newList } = req.body;
+//   console.log("newList is...", newList);
+//   try {
+//     const updatedUser = await User.findOneAndUpdate(
+//       { username: req.body.username },
+//       req.body,
+//       { new: true }
+//     );
+//     res.status(200).json({
+//       message: "The user was updated...",
+//       payload: updatedUser,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ error: errorHandler(error) });
+//   }
+// };
+
 module.exports = {
   createUser,
   getAllUsers,
   updateUser,
   getOneUser,
+  findUserByName,
+  // updateUserWatched,
 };
 
 //API Key

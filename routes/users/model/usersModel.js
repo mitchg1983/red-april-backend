@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const usersSchema = new mongoose.Schema({
     id: String,
-    //password: String,
-    name: String,
     username: String,
-    movieData: [],
+    email: String,
+    watched: [],
+    liked: {},
     userData: [],
     date: {
         type: Date,
